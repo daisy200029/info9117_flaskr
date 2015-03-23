@@ -5,6 +5,10 @@
       <dl>
         <dt>Title:
         <dd><input type=text size=30 name=title>
+	    <dt>Start time:
+        <dd><input type=text size=30 name=starttime>
+		<dt>End time:
+        <dd><input type=text size=30 name=endtime>
         <dt>Text:
         <dd><textarea name=text rows=5 cols=40></textarea>
         <dd><input type=submit value=Share>
@@ -13,9 +17,10 @@
 {% endif %}
 <ul class=entries>
 {% for entry in entries %}
-<li><h2>{{ entry.title }}</h2> {{ entry.text|safe }}
+<li><h2>{{ entry.title }} <span class=user> by {{ entry.username }} from {{ entry.starttime}} to {{ entry.endtime}} </span></h2> {{ entry.text|safe }}
 {% else %}
 <li><em>No entries here yet</em></li>
 {% endfor %}
 </ul>
 {% endblock %}
+
