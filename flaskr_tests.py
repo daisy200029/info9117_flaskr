@@ -96,20 +96,19 @@ class FlaskrTestCase(unittest.TestCase):
         ), follow_redirects=True)
         assert 'No entries here so far' not in rv.data
         assert '&lt;how are you&gt; <span class=user> by jim' in rv.data
-        self.logout()			
-		
-		
-		
-		self.login('spock', 'vulcan')
-		rv = self.app.post('/add', data=dict(
-			title='<HEYY>',
+        self.logout()
+
+        self.login('spock', 'vulcan')
+        rv = self.app.post('/add', data=dict(
+            title='<Happy>',
             text='<strong>HTML</strong> allowed here',
-			starttime='<2013.02.09>',
-			endtime='<2015.04.07>'
+			starttime='<2014.5.4 12:00>',
+			endtime='<2015.4.7 12:01>'
         ), follow_redirects=True)
         assert 'No entries here so far' not in rv.data
-        assert '&lt;HEYY&gt; <span class=user> by spock' in rv.data
-        self.logout()			
+        assert '&lt;Happy&gt; <span class=user> by spock' in rv.data
+        self.logout()
+
 
 		
 		
