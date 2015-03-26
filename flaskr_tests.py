@@ -77,12 +77,13 @@ class FlaskrTestCase(unittest.TestCase):
         rv2 = self.app.post('/add', data=dict(
             title='<Hello>',
             text='<strong>HTML</strong> allowed here',
-			starttime='<2012.2.2>',
-			endtime='<2012.2.6>'), follow_redirects=True)
+			starttime='2012.1.1',
+			endtime='2012.2.1'), follow_redirects=True)
         print("rv2",rv2)
         assert 'No entries here so far' not in rv2.data
         assert '&lt;Hello&gt;' in rv2.data
         assert '<strong>HTML</strong> allowed here' in rv2.data
+        assert '</span></h2> from 2012.1.1 to 2012.2.1'in rv.data
         print("messages_rv2.data",rv2.data)
         self.logout()
 
@@ -91,10 +92,11 @@ class FlaskrTestCase(unittest.TestCase):
         rv = self.app.post('/add', data=dict(
             title='<Hihi>',
             text='<strong>HTML</strong> allowed here',
-			starttime='<2012.2.2 23:00>',
-			endtime='<2012.2.6 23:20>'), follow_redirects=True)
+			starttime='2012.2.2 23:00',
+			endtime='2012.2.6 23:20'), follow_redirects=True)
         assert 'No entries here so far' not in rv.data
-        assert '&lt;Hihi&gt;' in rv.data
+        assert '&lt;Hihi&gt; <span class=user> by admin' in rv.data
+        assert '</span></h2> from 2012.2.2 23:00 to 2012.2.6 23:20'in rv.data
         assert '<strong>HTML</strong> allowed here' in rv.data
         self.logout()
 
@@ -105,22 +107,26 @@ class FlaskrTestCase(unittest.TestCase):
         rv = self.app.post('/add', data=dict(
             title='<how are you>',
             text='<strong>HTML</strong> allowed here',
-			starttime='<2014/5/4>',
-			endtime='<2015/4/7>'
+			starttime='2014/5/4',
+			endtime='2015/4/7'
         ), follow_redirects=True)
         assert 'No entries here so far' not in rv.data
         assert '&lt;how are you&gt; <span class=user> by jim' in rv.data
+        assert '</span></h2> from 2014/5/4 to 2015/4/7'in rv.data
+        assert '<strong>HTML</strong> allowed here' in rv.data
         self.logout()
 
         self.login('spock', 'vulcan')
         rv = self.app.post('/add', data=dict(
             title='<Happy>',
             text='<strong>HTML</strong> allowed here',
-			starttime='<2014.5.4 12:00>',
-			endtime='<2015.4.7 12:01>'
+			starttime='2014.5.4 12:00',
+			endtime='2015.4.7 12:01'
         ), follow_redirects=True)
         assert 'No entries here so far' not in rv.data
-        assert '&lt;Happy&gt; <span class=user> by spock' in rv.data
+        assert '&lt;Happy&gt; <span class=user> by spock'in rv.data
+        assert '</span></h2> from 2014.5.4 12:00 to 2015.4.7 12:01'in rv.data
+        assert '<strong>HTML</strong> allowed here' in rv.data
         self.logout()
 
 
